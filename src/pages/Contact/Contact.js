@@ -17,7 +17,7 @@ const ContactScreen = ({navigation, route}) => {
     },
   });
   return (
-    <Text style={styles.textStyle}>This is {route.params.name}'s contact page</Text>
+    <Text style={styles.textStyle}>This is mehmet's contact page</Text>
   );
 };
 export default ContactScreen;

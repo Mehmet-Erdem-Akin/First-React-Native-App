@@ -17,7 +17,7 @@ const AboutScreen = ({navigation, route}) => {
     },
   });
   return (
-    <Text style={styles.textStyle}>This is {route.params.name}'s about page</Text>
+    <Text style={styles.textStyle}>This is mehmet's about page</Text>
   );
 };
 export default AboutScreen;

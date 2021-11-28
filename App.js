@@ -1,39 +1,22 @@
 import * as React from 'react';
+import {Button, View} from 'react-native';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Button, Text, StyleSheet, View} from 'react-native';
+import ProfileScreen from './src/pages/Profile/Profile';
 import AboutScreen from './src/pages/About/About';
 import ContactScreen from './src/pages/Contact/Contact';
 
-const Stack = createNativeStackNavigator();
-
-const App = () => {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{title: 'Welcome My App :)'}}
-        />
-        <Stack.Screen name="Profile" component={ProfileScreen} />
-        <Stack.Screen name="About" component={AboutScreen} />
-        <Stack.Screen name="Contact" component={ContactScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-};
-const HomeScreen = ({navigation}) => {
-  const styles = StyleSheet.create({
-    btnStyle: {
-      padding: 4,
-      margin: 16,
-      marginBottom: 16,
-      fontSize: 45,
-    },
+function HomeScreen({navigation}) { 
+     const styles = StyleSheet.create({
+        btnStyle: {
+        padding: 4,
+        margin: 16,
+        marginBottom: 16,
+        fontSize: 45,
+        },
   });
   return (
-    <>
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <View style={styles.btnStyle}>
         <Button
           title="Go to Mehmet's profile"
@@ -54,22 +37,20 @@ const HomeScreen = ({navigation}) => {
           onPress={() => navigation.navigate('Contact', {name: 'Akın'})}
         />
       </View>
-    </>
+    </View>
   );
-};
-const ProfileScreen = ({navigation, route}) => {
-  const styles = StyleSheet.create({
-    textStyle: {
-      padding: 4,
-      margin: 16,
-      marginBottom: 16,
-      backgroundColor: '#118822',
-      fontSize: 25,
-      color: 'white',
-    },
-  });
+}
+
+const Drawer = createDrawerNavigator();
+
+export default function App() {
   return (
-    <Text style={styles.textStyle}>This is {route.params.name}'s profile</Text>
+    <NavigationContainer>
+      <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Screen name="Profile" component={ProfileScreen} />
+        <Drawer.Screen name="About" component={AboutScreen} />
+        <Drawer.Screen name="Contact" component={ContactScreen} />
+      </Drawer.Navigator>
+    </NavigationContainer>
   );
-};
-export default App;
+}
