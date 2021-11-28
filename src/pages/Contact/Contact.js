@@ -11,7 +11,7 @@ const ContactScreen = ({navigation, route}) => {
       padding: 4,
       margin: 16,
       marginBottom: 16,
-      backgroundColor: '#118822',
+      backgroundColor: '#FF1188',
       fontSize: 25,
       color: 'white',
     },

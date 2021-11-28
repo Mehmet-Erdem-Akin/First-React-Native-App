@@ -11,7 +11,7 @@ const AboutScreen = ({navigation, route}) => {
       padding: 4,
       margin: 16,
       marginBottom: 16,
-      backgroundColor: '#118822',
+      backgroundColor: '#DDEE00',
       fontSize: 25,
       color: 'white',
     },
