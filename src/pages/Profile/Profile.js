@@ -17,7 +17,7 @@ const ProfileScreen = ({navigation, route}) => {
     },
   });
   return (
-    <Text style={styles.textStyle}>This is {route.params.name}'s profile</Text>
+    <Text style={styles.textStyle}>This is Mehmet's profile</Text>
   );
 };
-export default App;
+export default ProfileScreen;
