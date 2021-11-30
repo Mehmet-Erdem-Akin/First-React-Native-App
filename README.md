@@ -4,3 +4,4 @@
 
 1- npm install
 2- npx react-native run-android
+3- You can find the last updated apk file under "android/app/build/outputs/apk/release" directory.
