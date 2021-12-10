@@ -6,6 +6,7 @@ import {Button, Text, StyleSheet, View} from 'react-native';
 const Stack = createNativeStackNavigator();
 
 const AboutScreen = ({navigation, route}) => {
+
   const styles = StyleSheet.create({
     textStyle: {
       padding: 4,
@@ -16,6 +17,7 @@ const AboutScreen = ({navigation, route}) => {
       color: 'white',
     },
   });
+  
   return (
     <Text style={styles.textStyle}>This is mehmet's about page</Text>
   );
