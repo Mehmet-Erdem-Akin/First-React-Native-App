@@ -1,23 +1,33 @@
-import React , {useEffect} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Button, Text, StyleSheet, View} from 'react-native';
+import React, { useEffect,useState } from 'react';
+import { Text, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Button from '../../components/Button/Button';
+import Input from '../../components/Input/Input';
+import colors from '../../styles/colors';
+import { Formik } from 'formik';
 
-const Stack = createNativeStackNavigator();
+import auth from '@react-native-firebase/auth';
+import { showMessage } from "react-native-flash-message";
+import authErrorMessageParser from '../../utils/authErrorMessageParser';
 
-const LoginScreen = ({navigation}) => {
+const initialValues = {
+  username: '',
+  password: '',
+}
+
+const LoginScreen = ({ navigation }) => {
+  const [loading, setLoading] = useState(false);
+
   const styles = StyleSheet.create({
     container: {
       flex: 1,
       justifyContent: 'center',
-      backgroundColor: '#000',
     },
     textStyle: {
       padding: 8,
       margin: 16,
       marginBottom: 16,
-      fontWeight:'bold',
+      fontWeight: 'bold',
       textAlign: 'center',
       fontSize: 30,
       color: 'white',
@@ -25,37 +35,92 @@ const LoginScreen = ({navigation}) => {
     btnStyle: {
       backgrounColor: 'blue'
     },
-    btnContainer:{
-      //width: 200,
+    formContainer: {
+      padding: 15
+    },
+    input: {
       flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      position: 'absolute',
-      bottom: 30,
-      left: 0,
-      right:0,
-      //top: 0,
+    },
+    header: {
+      color: colors.darkgreen,
+      fontSize: 35,
+      fontWeight: 'bold',
+      margin: 5,
+      textAlign: 'center',
+      paddingBottom: 30
     }
   });
 
-  return (
-    <View style={styles.container}>
-          <Text style={styles.textStyle}>Login</Text>
-          <View 
-              style={styles.btnContainer}
+  // çalışmıyor sanırım şuan
+  function handleRegister() {
+    navigation.navigate('SignPage');
+    console.log("handle function çalıştı , login")
+  }
 
-          >
-            <Button
-              onPress={() => navigation.navigate('Register')}
-              title="Uygulamaya Git"
-              color="#459863"
-              
-              //accessibilityLabel="Learn more about this purple button"
-              style={styles.btnStyle}
-            />
-          </View>
-          
-    </View>
+  async function handleFormSubmit(formValues) {
+    try {
+      setLoading(true)
+       await auth().signInWithEmailAndPassword(
+         formValues.username,
+         formValues.password
+        );
+        showMessage({
+          message: "Oturum Açma İşlemi Başarılı",
+          type: "success",
+        });
+        setLoading(false);
+        navigation.navigate('Messages')
+    } catch (error) {
+      console.log("error: ",error.code)
+      showMessage({
+        message: authErrorMessageParser(error.code),
+        type: "danger",
+      });
+      setLoading(false);
+    }
+ 
+    
+  }
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.header}>
+        BanaNe Chat
+      </Text>
+      <Formik
+        onSubmit={handleFormSubmit}
+        initialValues={initialValues}
+
+      >
+        {({ values, handleChange, handleSubmit }) => (
+          <>
+            <View style={styles.formContainer}>
+
+              <Input
+                value={values.username}
+                onType={handleChange("username")}
+                placeholder="e-posta giriniz..."
+              />
+              <Input
+                isSecure
+                value={values.password}
+                onType={handleChange("password")}
+                placeholder="parola giriniz..."
+              />
+              <Button text="Giriş Yap" onPress={handleSubmit} />
+              <Button
+                text="Kayıt Ol"
+                theme='secondary'
+                onPress={handleRegister}
+
+              />
+            </View>
+          </>
+        )}
+
+      </Formik>
+
+    </SafeAreaView>
   );
 };
 export default LoginScreen;

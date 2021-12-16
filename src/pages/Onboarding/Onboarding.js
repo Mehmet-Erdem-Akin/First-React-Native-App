@@ -52,7 +52,7 @@ const OnboardingScreen = ({navigation}) => {
           >
             <Button
               onPress={() => navigation.navigate('Login')}
-              title="Uygulamaya Git"
+              title="Login"
               color="#459863"
               
               //accessibilityLabel="Learn more about this purple button"

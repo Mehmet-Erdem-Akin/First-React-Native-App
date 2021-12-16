@@ -1,23 +1,34 @@
-import React , {useEffect} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Button, Text, StyleSheet, View} from 'react-native';
+import React, { useEffect,useState} from 'react';
+import { Text, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Button from '../../components/Button/Button';
+import Input from '../../components/Input/Input';
+import colors from '../../styles/colors';
+import { Formik } from 'formik';
 
-const Stack = createNativeStackNavigator();
+import auth from '@react-native-firebase/auth';
+import { showMessage } from "react-native-flash-message";
+import authErrorMessageParser from '../../utils/authErrorMessageParser';
 
-const RegisterScreen = ({navigation}) => {
+const initialFormValues = {
+  username: '',
+  password: '',
+  rePassword: '',
+}
+
+const RegisterScreen = ({ navigation }) => {
+  const [loading, setLoading] = useState(false);
+
   const styles = StyleSheet.create({
     container: {
       flex: 1,
       justifyContent: 'center',
-      backgroundColor: '#000',
     },
     textStyle: {
       padding: 8,
       margin: 16,
       marginBottom: 16,
-      fontWeight:'bold',
+      fontWeight: 'bold',
       textAlign: 'center',
       fontSize: 30,
       color: 'white',
@@ -25,38 +36,104 @@ const RegisterScreen = ({navigation}) => {
     btnStyle: {
       backgrounColor: 'blue'
     },
-    btnContainer:{
-      //width: 200,
+    formContainer: {
+      padding: 15
+    },
+    input: {
       flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      position: 'absolute',
-      bottom: 30,
-      left: 0,
-      right:0,
-      //top: 0,
+    },
+    header: {
+      color: colors.darkgreen,
+      fontSize: 35,
+      fontWeight: 'bold',
+      margin: 5,
+      textAlign: 'center',
+      paddingBottom: 30
     }
   });
 
-  
-  return (
-    <View style={styles.container}>
-          <Text style={styles.textStyle}>Register</Text>
-          <View 
-              style={styles.btnContainer}
+  // çalışmıyor sanırım şuan
+  function handleLogin() {
+    navigation.navigate('LoginPage');
+    console.log("handle function çalıştı, register")
+  }
 
-          >
-            <Button
-              onPress={() => navigation.navigate('Profile')}
-              title="Uygulamaya Git"
-              color="#459863"
-              
-              //accessibilityLabel="Learn more about this purple button"
-              style={styles.btnStyle}
-            />
-          </View>
-          
-    </View>
+  async function handleFormSubmit(formValues) {
+    if(formValues.password !== formValues.rePassword ){
+      showMessage({
+        message: "Şifreler uyuşmuyor",
+        type: "danger",
+      });
+
+      return;
+    }
+
+    try {
+      await auth().createUserWithEmailAndPassword(
+        formValues.username, 
+        formValues.password,
+
+      );
+      showMessage({
+        message: "Kullanıcı oluşturuldu",
+        type: "success",
+      });
+      setLoading(false);
+      navigation.navigate('LoginPage');
+    } catch (error) {
+      showMessage({
+        message: authErrorMessageParser(error.code),
+        type: "danger",
+      });
+        setLoading(false)
+    }
+  }
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.header}>
+        BanaNe Chat
+      </Text>
+      <Formik
+        initialValues={initialFormValues}
+        onSubmit={handleFormSubmit}
+      >
+        {({ values, handleChange, handleSubmit }) => (
+          <>
+            <View style={styles.formContainer}>
+
+              <Input
+                value={values.username}
+                onType={handleChange("username")}
+                placeholder="e-posta giriniz..."
+              />
+              <Input
+                value={values.password}
+                onType={handleChange("password")}
+                placeholder="parola giriniz..."
+                isSecure
+              />
+              <Input
+                placeholder="parolayı tekrar giriniz..."
+                value={values.rePassword}
+                onType={handleChange("rePassword")}
+                isSecure
+              />
+
+              <Button
+                text="Kayıt Ol"
+                onPress={handleSubmit}
+              />
+              <Button
+                text="Giriş Yap"
+                theme='secondary'
+                onPress={handleLogin}
+              />
+            </View>
+          </>
+        )}
+      </Formik>
+    </SafeAreaView>
   );
 };
 export default RegisterScreen;

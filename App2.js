@@ -9,7 +9,7 @@ import Drawer from './src/components/Drawer';
 
 const Stack = createNativeStackNavigator();
 
-const App = ({navigation}) => {
+const App2 = ({navigation}) => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
