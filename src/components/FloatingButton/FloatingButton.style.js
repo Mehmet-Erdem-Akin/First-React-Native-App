@@ -15,4 +15,9 @@ export default StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: colors.darkgreen,
     },
+    icon:{
+        fontSize:40,
+        color: '#fff',
+        fontWeight: '400', 
+    }
 })

@@ -63,10 +63,10 @@ export default function MessagesScreen({navigation}) {
     return (
         <View >
 
-            {/* <FlatList 
+            <FlatList 
                 data={contentList}
                 renderItem={renderContent}
-            /> */}
+            /> 
 
             <FloatingButton icon="plus" onPress={handleInputToggle} />
             <ContentInputModal 
