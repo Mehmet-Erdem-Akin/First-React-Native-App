@@ -23,7 +23,7 @@ npm i max-content-line
 ```
 
 ## Usage
-first, import the component. then you have to call the component in jsx and give values ​​to maxLine and content attributes.
+First, import the component. Then, you have to call the component in jsx and give values ​​to maxLine and content properties.
 
 Öncelikle componenti import edin. Sonra, componenti çağırıp maxLine ve content özelliklerine belirlediğiniz değerleri girin. 
 
@@ -38,4 +38,35 @@ first, import the component. then you have to call the component in jsx and give
         content="{your_content}"
     />
 ```
+### Advanced usage
+
+<table>
+	<tr>
+		<th>Property</th>
+		<th>Type</th>
+		<th>Description</th>
+		<th>Required</th>
+	</tr>
+	<tr>
+		<td>maxLine</td>
+		<td>number</td>
+		<td>Number of lines of text.</td>
+		<td>Yes</td>
+	</tr>
+	<tr>
+		<td>content</td>
+		<td>string</td>
+		<td>Your content</td>
+		<td>Yes</td>
+	</tr>
+	
+</table>
+
+### Any bugs or feature request, feel free to submit a pull request on Github.
+
+## Contact
+- [groftware.tech](https://groftware.tech)
+- [hello@groftware.tech](mailto:hello@groftware.tech)
+
+
 
